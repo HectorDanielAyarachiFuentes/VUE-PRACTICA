@@ -1,32 +1,19 @@
 <template>
-  <div id="cv">
+  <div>
     <header>
-      <h1>{{ personalInfo.name }}</h1>
-      <p>{{ personalInfo.title }}</p>
-      <p>{{ personalInfo.address }}</p>
-      <p>{{ personalInfo.email }}</p>
+      <span id="ramoncito" @click="toggleAudio">CATALOGO POKÉMON DE TARJETAS</span>
+      <div class="w3-container">
+        <audio id="audio-player" ref="audioPlayer" :src="audioSrc"></audio>
+      </div>
     </header>
 
-    <section class="experience">
-      <h2>Experiencia Laboral</h2>
-      <ul>
-        <li v-for="job in experience" :key="job.id">
-          <h3>{{ job.position }}</h3>
-          <p>{{ job.company }}, {{ job.year }}</p>
-          <p>{{ job.description }}</p>
-        </li>
-      </ul>
-    </section>
+    <div class="pokemon-container" id="pokemon-container">
+      <!-- Aquí se mostrarán los Pokémon -->
+    </div>
 
-    <section class="education">
-      <h2>Educación</h2>
-      <ul>
-        <li v-for="edu in education" :key="edu.id">
-          <h3>{{ edu.degree }}</h3>
-          <p>{{ edu.school }}, {{ edu.year }}</p>
-        </li>
-      </ul>
-    </section>
+    <footer>
+      <p>&copy; 2023 Pokémon Store</p>
+    </footer>
   </div>
 </template>
 
@@ -34,86 +21,104 @@
 export default {
   data() {
     return {
-      personalInfo: {
-        name: 'Tu Nombre',
-        title: 'Desarrollador Web',
-        address: 'Tu Dirección',
-        email: 'tu@email.com'
-      },
-      experience: [
-        {
-          id: 1,
-          position: 'Desarrollador Web',
-          company: 'Empresa ABC',
-          year: '2022-2024',
-          description: 'Trabajé en...'
-        },
-        // Más experiencias laborales aquí
-      ],
-      education: [
-        {
-          id: 1,
-          degree: 'Licenciatura en Informática',
-          school: 'Universidad XYZ',
-          year: '2018-2022'
-        },
-        // Más información educativa aquí
-      ]
+      audioSrc: "https://www.cjoint.com/doc/23_09/MIwvlqlr3ad_Ven-a-Mí.mp3",
+      isAudioPaused: true,
     };
-  }
+  },
+  methods: {
+    toggleAudio() {
+      const audioPlayer = this.$refs.audioPlayer;
+
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
+      }
+
+      this.isAudioPaused = audioPlayer.paused;
+    },
+  },
 };
 </script>
 
 <style scoped>
-#cv {
-  font-family: 'Arial', sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f3f4f6;
+/* Estilo para el cursor de mano */
+#ramoncito {
+  cursor: pointer;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: repeating-linear-gradient(284deg, transparent 0px, transparent 1px,rgb(251,251,251) 1px, rgb(251,251,251) 3px),repeating-linear-gradient(14deg, transparent 0px, transparent 1px,rgb(251,251,251) 1px, rgb(251,251,251) 3px),linear-gradient(90deg, rgb(222,222,222),rgb(222,222,222));
+
 }
 
 header {
-  text-align: center;
-  margin-bottom: 40px;
+    background-image: linear-gradient(90deg, #e60000, #ffcc00, #00529B); /* Combinación de colores Pokémon */
+
+    text-align: center;
+    padding: 20px 0;
 }
 
-h1 {
-  font-size: 32px;
-  margin-bottom: 8px;
+
+#ramoncito {
+    color:blanchedalmond;
+    font-size: 30px;
+
 }
 
-p {
-  margin: 4px 0;
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
 }
 
-.experience,
-.education {
-  margin-bottom: 40px;
+/* Estilos para el contenedor de productos Pokémon */
+.pokemon-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Diseño responsivo */
+    gap: 20px;
+    padding: 20px;
 }
 
-h2 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 16px;
+.pokemon-card {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative; /* Para controlar la posición del botón */
 }
 
-ul {
-  padding: 0;
+.pokemon-card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px; /* Espacio entre la imagen y el botón */
 }
 
-li {
-  margin-bottom: 20px;
+.ver-button {
+    background-color: #008CBA;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 20px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
-h3 {
-  color: #555;
-  font-size: 20px;
-  margin-bottom: 8px;
+.pokemon-card:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-p {
-  color: #666;
-  margin: 4px 0;
+.ver-button:hover {
+    background-color: #00529B;
+    transform: translate(-50%, -2px);
+    box-shadow: 0 0 10px #00529B;
 }
 </style>
